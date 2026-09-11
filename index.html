@@ -1,0 +1,1408 @@
+```html
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bar Esempio - Menù</title>
+
+
+    <style>
+
+        /* =========================
+           COLORI PRINCIPALI
+        ========================= */
+
+        :root {
+
+            --verde: #24483b;
+            --verde-dark: #17332a;
+
+            --oro: #b99a5b;
+
+            --crema: #f5f0e6;
+            --bianco: #fffdf8;
+
+            --testo: #292722;
+            --testo-secondario: #716c62;
+
+            --bordo: #dfd7c8;
+
+        }
+
+
+        /* =========================
+           RESET
+        ========================= */
+
+        * {
+
+            margin: 0;
+            padding: 0;
+
+            box-sizing: border-box;
+
+        }
+
+
+        html {
+
+            min-height: 100%;
+
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            background: var(--crema);
+
+            color: var(--testo);
+
+        }
+
+
+        /* =========================
+           CONTENUTO PRINCIPALE
+        ========================= */
+
+        #bar-menu {
+
+            min-height: 100vh;
+
+            display: flex;
+
+            flex-direction: column;
+
+            opacity: 0;
+
+            transform: translateY(30px);
+
+            transition:
+                opacity 1s ease,
+                transform 1s ease;
+
+        }
+
+
+        #bar-menu.show {
+
+            opacity: 1;
+
+            transform: translateY(0);
+
+        }
+
+
+        /* =========================
+           SCHERMATA DI CARICAMENTO
+        ========================= */
+
+        #bar-loading {
+
+            position: fixed;
+
+            inset: 0;
+
+            background: var(--verde-dark);
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            align-items: center;
+
+            z-index: 9999;
+
+            transition:
+                opacity 1s ease,
+                transform 1s ease;
+
+        }
+
+
+        #bar-loading.hide {
+
+            opacity: 0;
+
+            transform: scale(1.08);
+
+            pointer-events: none;
+
+        }
+
+
+        .loading-logo {
+
+            color: var(--oro);
+
+            font-size: 85px;
+
+            font-weight: bold;
+
+            letter-spacing: 10px;
+
+            animation:
+                logoPulse 1.5s
+                infinite ease-in-out;
+
+        }
+
+
+        .loading-text {
+
+            margin-top: 15px;
+
+            color: #e8e0d1;
+
+            font-family: Arial, sans-serif;
+
+            font-size: 13px;
+
+            letter-spacing: 4px;
+
+            text-transform: uppercase;
+
+        }
+
+
+        .loading-dots span {
+
+            display: inline-block;
+
+            animation:
+                dots 1.4s infinite;
+
+        }
+
+
+        .loading-dots span:nth-child(2) {
+
+            animation-delay: .2s;
+
+        }
+
+
+        .loading-dots span:nth-child(3) {
+
+            animation-delay: .4s;
+
+        }
+
+
+        @keyframes logoPulse {
+
+            0%,
+            100% {
+
+                opacity: .45;
+
+                transform: scale(.95);
+
+            }
+
+            50% {
+
+                opacity: 1;
+
+                transform: scale(1);
+
+            }
+
+        }
+
+
+        @keyframes dots {
+
+            0%,
+            80%,
+            100% {
+
+                opacity: 0;
+
+            }
+
+            40% {
+
+                opacity: 1;
+
+            }
+
+        }
+
+
+        /* =========================
+           HEADER DEL BAR
+        ========================= */
+
+        .bar-header {
+
+            background: var(--verde);
+
+            color: var(--crema);
+
+            text-align: center;
+
+            padding:
+                55px 20px 50px;
+
+            position: relative;
+
+            overflow: hidden;
+
+        }
+
+
+        .bar-header::after {
+
+            content: "";
+
+            position: absolute;
+
+            bottom: -25px;
+
+            left: -5%;
+
+            width: 110%;
+
+            height: 50px;
+
+            background: var(--crema);
+
+            border-radius:
+                50% 50% 0 0;
+
+        }
+
+
+        .bar-logo {
+
+            font-size: 52px;
+
+            font-weight: bold;
+
+            letter-spacing: 7px;
+
+            color: var(--oro);
+
+        }
+
+
+        .bar-header h1 {
+
+            margin-top: 10px;
+
+            font-size: 30px;
+
+            letter-spacing: 2px;
+
+        }
+
+
+        .bar-header p {
+
+            margin-top: 10px;
+
+            font-family: Arial, sans-serif;
+
+            font-size: 14px;
+
+            opacity: .85;
+
+        }
+
+
+        /* =========================
+           CONTENITORE MENÙ
+        ========================= */
+
+        .menu-content {
+
+            width: min(900px, 92%);
+
+            margin:
+                45px auto 60px;
+
+        }
+
+
+        .menu-intro {
+
+            text-align: center;
+
+            margin-bottom: 35px;
+
+        }
+
+
+        .menu-intro h2 {
+
+            color: var(--verde);
+
+            font-size: 32px;
+
+        }
+
+
+        .menu-intro p {
+
+            margin-top: 8px;
+
+            font-family: Arial, sans-serif;
+
+            color: var(--testo-secondario);
+
+        }
+
+
+        /* =========================
+           CATEGORIE DEL MENÙ
+        ========================= */
+
+        .menu-category {
+
+            margin-bottom: 18px;
+
+            background: var(--bianco);
+
+            border:
+                1px solid var(--bordo);
+
+            border-radius: 14px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 5px 18px
+                rgba(30, 40, 30, .07);
+
+        }
+
+
+        .category-button {
+
+            width: 100%;
+
+            border: none;
+
+            background: transparent;
+
+            padding: 22px 25px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            cursor: pointer;
+
+            color: var(--verde);
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 22px;
+
+            font-weight: bold;
+
+            transition:
+                background .3s ease;
+
+        }
+
+
+        .category-button:hover {
+
+            background: #f0ede4;
+
+        }
+
+
+        .category-arrow {
+
+            color: var(--oro);
+
+            font-size: 17px;
+
+            transition:
+                transform .35s ease;
+
+        }
+
+
+        .menu-category.open
+        .category-arrow {
+
+            transform:
+                rotate(180deg);
+
+        }
+
+
+        /* =========================
+           ELEMENTI DEL MENÙ
+        ========================= */
+
+        .menu-items {
+
+            max-height: 0;
+
+            overflow: hidden;
+
+            transition:
+                max-height .5s ease,
+                padding .5s ease;
+
+        }
+
+
+        .menu-category.open
+        .menu-items {
+
+            max-height: 1000px;
+
+            padding:
+                0 25px 20px;
+
+        }
+
+
+        .menu-item {
+
+            padding: 18px 0;
+
+            border-top:
+                1px solid #e8e2d8;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+        }
+
+
+        .item-info {
+
+            flex: 1;
+
+        }
+
+
+        .item-name {
+
+            color: var(--verde);
+
+            font-size: 19px;
+
+            font-weight: bold;
+
+        }
+
+
+        .item-description {
+
+            margin-top: 5px;
+
+            font-family: Arial, sans-serif;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+
+            color: var(--testo-secondario);
+
+        }
+
+
+        .item-price {
+
+            color: var(--oro);
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .bar-footer {
+
+            margin-top: auto;
+
+            text-align: center;
+
+            background: var(--verde-dark);
+
+            color: #ded7c9;
+
+            padding: 30px 20px;
+
+            font-family: Arial, sans-serif;
+
+            font-size: 13px;
+
+        }
+
+
+        .bar-footer strong {
+
+            color: var(--oro);
+
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+
+            .loading-logo {
+
+                font-size: 65px;
+
+            }
+
+
+            .bar-logo {
+
+                font-size: 40px;
+
+            }
+
+
+            .bar-header h1 {
+
+                font-size: 25px;
+
+            }
+
+
+            .menu-intro h2 {
+
+                font-size: 27px;
+
+            }
+
+
+            .category-button {
+
+                font-size: 19px;
+
+                padding: 20px;
+
+            }
+
+
+            .menu-category.open
+            .menu-items {
+
+                padding-left: 20px;
+
+                padding-right: 20px;
+
+            }
+
+
+            .item-name {
+
+                font-size: 17px;
+
+            }
+
+
+            .item-description {
+
+                font-size: 13px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         SCHERMATA DI CARICAMENTO
+    ========================== -->
+
+    <div id="bar-loading">
+
+        <div class="loading-logo">
+
+            BE
+
+        </div>
+
+
+        <div class="loading-text">
+
+            Caricamento
+
+            <span class="loading-dots">
+
+                <span>.</span>
+                <span>.</span>
+                <span>.</span>
+
+            </span>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         CONTENUTO DEL BAR
+    ========================== -->
+
+    <main id="bar-menu">
+
+
+        <!-- =========================
+             HEADER
+        ========================== -->
+
+        <header class="bar-header">
+
+            <div class="bar-logo">
+
+                Bar Esempio
+
+            </div>
+
+
+            <h1>
+
+                Il nostro menù
+
+            </h1>
+
+
+            <p>
+
+                Caffè, drink e piccoli piaceri
+
+            </p>
+
+        </header>
+
+
+
+        <!-- =========================
+             MENÙ
+        ========================== -->
+
+        <div class="menu-content">
+
+
+            <!-- INTRO -->
+
+            <div class="menu-intro">
+
+                <h2>
+
+                    Cosa ti offriamo
+
+                </h2>
+
+
+                <p>
+
+                    Scegli una categoria
+                    per scoprire il menù
+
+                </p>
+
+            </div>
+
+
+
+            <!-- =========================
+                 CAFFETTERIA
+            ========================== -->
+
+            <section class="menu-category">
+
+
+                <button class="category-button">
+
+                    <span>
+
+                        ☕ Caffetteria
+
+                    </span>
+
+
+                    <span class="category-arrow">
+
+                        ▼
+
+                    </span>
+
+                </button>
+
+
+
+                <div class="menu-items">
+
+
+                    <div class="menu-item">
+
+                        <div class="item-info">
+
+                            <div class="item-name">
+
+                                Caffè Espresso
+
+                            </div>
+
+
+                            <div class="item-description">
+
+                                Il classico espresso italiano.
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="item-price">
+
+                            € 1,20
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="menu-item">
+
+                        <div class="item-info">
+
+                            <div class="item-name">
+
+                                Cappuccino
+
+                            </div>
+
+
+                            <div class="item-description">
+
+                                Espresso, latte caldo
+                                e morbida schiuma di latte.
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="item-price">
+
+                            € 1,80
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="menu-item">
+
+                        <div class="item-info">
+
+                            <div class="item-name">
+
+                                Caffè Macchiato
+
+                            </div>
+
+
+                            <div class="item-description">
+
+                                Espresso con una morbida
+                                macchia di latte.
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="item-price">
+
+                            € 1,50
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =========================
+                 DRINK E COCKTAIL
+            ========================== -->
+
+            <section class="menu-category">
+
+
+                <button class="category-button">
+
+                    <span>
+
+                        🍹 Drink & Cocktail
+
+                    </span>
+
+
+                    <span class="category-arrow">
+
+                        ▼
+
+                    </span>
+
+                </button>
+
+
+
+                <div class="menu-items">
+
+
+                    <div class="menu-item">
+
+                        <div class="item-info">
+
+                            <div class="item-name">
+
+                                Spritz
+
+                            </div>
+
+
+                            <div class="item-description">
+
+                                Aperol, prosecco,
+                                soda e ghiaccio.
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="item-price">
+
+                            € 6,00
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="menu-item">
+
+                        <div class="item-info">
+
+                            <div class="item-name">
+
+                                Gin Tonic
+
+                            </div>
+
+
+                            <div class="item-description">
+
+                                Gin, acqua tonica
+                                e ghiaccio.
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="item-price">
+
+                            € 7,00
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="menu-item">
+
+                        <div class="item-info">
+
+                            <div class="item-name">
+
+                                Mojito
+
+                            </div>
+
+
+                            <div class="item-description">
+
+                                Rum, lime, menta,
+                                zucchero e soda.
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="item-price">
+
+                            € 7,00
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =========================
+                 BIRRE
+            ========================== -->
+
+            <section class="menu-category">
+
+
+                <button class="category-button">
+
+                    <span>
+
+                        🍺 Birre
+
+                    </span>
+
+
+                    <span class="category-arrow">
+
+                        ▼
+
+                    </span>
+
+                </button>
+
+
+
+                <div class="menu-items">
+
+
+                    <div class="menu-item">
+
+                        <div class="item-info">
+
+                            <div class="item-name">
+
+                                Birra alla Spina
+
+                            </div>
+
+
+                            <div class="item-description">
+
+                                Birra bionda alla spina,
+                                0,40 L.
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="item-price">
+
+                            € 5,00
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="menu-item">
+
+                        <div class="item-info">
+
+                            <div class="item-name">
+
+                                Birra Artigianale
+
+                            </div>
+
+
+                            <div class="item-description">
+
+                                Selezione di birre
+                                artigianali italiane.
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="item-price">
+
+                            € 6,00
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="menu-item">
+
+                        <div class="item-info">
+
+                            <div class="item-name">
+
+                                Birra in Bottiglia
+
+                            </div>
+
+
+                            <div class="item-description">
+
+                                Selezione di birre
+                                nazionali e internazionali.
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="item-price">
+
+                            € 4,00
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =========================
+                 STUZZICHERIA
+            ========================== -->
+
+            <section class="menu-category">
+
+
+                <button class="category-button">
+
+                    <span>
+
+                        🥪 Stuzzicheria
+
+                    </span>
+
+
+                    <span class="category-arrow">
+
+                        ▼
+
+                    </span>
+
+                </button>
+
+
+
+                <div class="menu-items">
+
+
+                    <div class="menu-item">
+
+                        <div class="item-info">
+
+                            <div class="item-name">
+
+                                Tagliere Misto
+
+                            </div>
+
+
+                            <div class="item-description">
+
+                                Selezione di salumi,
+                                formaggi e prodotti
+                                del territorio.
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="item-price">
+
+                            € 12,00
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="menu-item">
+
+                        <div class="item-info">
+
+                            <div class="item-name">
+
+                                Club Sandwich
+
+                            </div>
+
+
+                            <div class="item-description">
+
+                                Pane tostato, pollo,
+                                insalata, pomodoro e salsa.
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="item-price">
+
+                            € 8,00
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="menu-item">
+
+                        <div class="item-info">
+
+                            <div class="item-name">
+
+                                Patatine Fritte
+
+                            </div>
+
+
+                            <div class="item-description">
+
+                                Patatine croccanti
+                                servite calde.
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="item-price">
+
+                            € 4,00
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+
+
+        <!-- =========================
+             FOOTER
+        ========================== -->
+
+        <footer class="bar-footer">
+
+            <p>
+
+                © 2026
+                <strong>Bar Esempio</strong>
+
+            </p>
+
+
+            <p style="margin-top: 7px;">
+
+                Un buon momento comincia da qui.
+
+            </p>
+
+        </footer>
+
+
+    </main>
+
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script>
+
+
+        /* =========================
+           SCHERMATA DI CARICAMENTO
+        ========================== */
+
+        window.addEventListener(
+            "load",
+            function () {
+
+
+                setTimeout(
+                    function () {
+
+
+                        document
+                            .getElementById(
+                                "bar-loading"
+                            )
+                            .classList
+                            .add("hide");
+
+
+                        document
+                            .getElementById(
+                                "bar-menu"
+                            )
+                            .classList
+                            .add("show");
+
+
+                    },
+                    1800
+                );
+
+            }
+        );
+
+
+
+        /* =========================
+           CATEGORIE DEL MENÙ
+        ========================== */
+
+        const menuCategories =
+            document.querySelectorAll(
+                ".menu-category"
+            );
+
+
+        menuCategories.forEach(
+            category => {
+
+
+                const button =
+                    category.querySelector(
+                        ".category-button"
+                    );
+
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+
+                        /*
+                         * Chiude tutte
+                         * le altre categorie
+                         */
+
+                        menuCategories.forEach(
+                            otherCategory => {
+
+
+                                if (
+                                    otherCategory
+                                    !== category
+                                ) {
+
+                                    otherCategory
+                                        .classList
+                                        .remove(
+                                            "open"
+                                        );
+
+                                }
+
+                            }
+                        );
+
+
+                        /*
+                         * Apre o chiude
+                         * la categoria selezionata
+                         */
+
+                        category
+                            .classList
+                            .toggle(
+                                "open"
+                            );
+
+                    }
+                );
+
+            }
+        );
+
+
+    </script>
+
+</body>
+
+</html>
+```
